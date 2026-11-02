@@ -139,15 +139,32 @@
 \node[below] at (axis cs:3.8,0) {\footnotesize $b$};
 \addplot[only marks, mark=*, mark size=1.3pt] coordinates {(0.4000,0.6668) (0.9667,0.7969) (1.5333,0.8614) (2.1000,1.2136) (2.6667,1.7678) (3.2333,0.7436) (3.8000,0.3699)};
 \end{axis}
-\begin{axis}[rev, title={Gauss}, at={(S2.east)}, anchor=west, xshift=0.4cm]
-\draw[gr!70!black, fill=gr!15] (axis cs:0.3404,0) rectangle (axis cs:0.9317,0.7282);
-\draw[gr!70!black, fill=gr!15] (axis cs:0.9677,0) rectangle (axis cs:2.0764,0.8602);
-\draw[gr!70!black, fill=gr!15] (axis cs:2.1236,0) rectangle (axis cs:3.2323,1.7577);
-\draw[gr!70!black, fill=gr!15] (axis cs:3.2683,0) rectangle (axis cs:3.8596,0.4538);
+\begin{axis}[rev, title={Adaptive Gauss}, at={(S2.east)}, anchor=west, xshift=0.4cm]
+% adaptive 2-point Gauss: pieces are split until the error estimate is small,
+% so they are short near the bump. On each piece the rule equals the area under
+% the line through its two Gauss nodes.
+\draw[thin, gr!70!black, fill=gr!15] (axis cs:0.4000,0) -- (axis cs:0.4000,0.6781) -- (axis cs:1.2500,0.8495) -- (axis cs:1.2500,0) -- cycle;
+\draw[gr, very thick] (axis cs:0.4000,0.6781) -- (axis cs:1.2500,0.8495);
+\draw[thin, gr!70!black, fill=gr!15] (axis cs:1.2500,0) -- (axis cs:1.2500,0.8352) -- (axis cs:1.6750,0.8766) -- (axis cs:1.6750,0) -- cycle;
+\draw[gr, very thick] (axis cs:1.2500,0.8352) -- (axis cs:1.6750,0.8766);
+\draw[thin, gr!70!black, fill=gr!15] (axis cs:1.6750,0) -- (axis cs:1.6750,0.8449) -- (axis cs:2.1000,1.1621) -- (axis cs:2.1000,0) -- cycle;
+\draw[gr, very thick] (axis cs:1.6750,0.8449) -- (axis cs:2.1000,1.1621);
+\draw[thin, gr!70!black, fill=gr!15] (axis cs:2.1000,0) -- (axis cs:2.1000,1.2179) -- (axis cs:2.5250,1.8691) -- (axis cs:2.5250,0) -- cycle;
+\draw[gr, very thick] (axis cs:2.1000,1.2179) -- (axis cs:2.5250,1.8691);
+\draw[thin, gr!70!black, fill=gr!15] (axis cs:2.5250,0) -- (axis cs:2.5250,1.8322) -- (axis cs:2.7375,1.7193) -- (axis cs:2.7375,0) -- cycle;
+\draw[gr, very thick] (axis cs:2.5250,1.8322) -- (axis cs:2.7375,1.7193);
+\draw[thin, gr!70!black, fill=gr!15] (axis cs:2.7375,0) -- (axis cs:2.7375,1.7062) -- (axis cs:2.9500,1.2905) -- (axis cs:2.9500,0) -- cycle;
+\draw[gr, very thick] (axis cs:2.7375,1.7062) -- (axis cs:2.9500,1.2905);
+\draw[thin, gr!70!black, fill=gr!15] (axis cs:2.9500,0) -- (axis cs:2.9500,1.2746) -- (axis cs:3.1625,0.8426) -- (axis cs:3.1625,0) -- cycle;
+\draw[gr, very thick] (axis cs:2.9500,1.2746) -- (axis cs:3.1625,0.8426);
+\draw[thin, gr!70!black, fill=gr!15] (axis cs:3.1625,0) -- (axis cs:3.1625,0.8394) -- (axis cs:3.3750,0.5666) -- (axis cs:3.3750,0) -- cycle;
+\draw[gr, very thick] (axis cs:3.1625,0.8394) -- (axis cs:3.3750,0.5666);
+\draw[thin, gr!70!black, fill=gr!15] (axis cs:3.3750,0) -- (axis cs:3.3750,0.5515) -- (axis cs:3.8000,0.3549) -- (axis cs:3.8000,0) -- cycle;
+\draw[gr, very thick] (axis cs:3.3750,0.5515) -- (axis cs:3.8000,0.3549);
 \addplot[black, domain=0.15:4.1, samples=150] {gc(x)};
 \node[below] at (axis cs:0.4,0) {\footnotesize $a$};
 \node[below] at (axis cs:3.8,0) {\footnotesize $b$};
-\addplot[only marks, mark=*, mark size=1.3pt, hl] coordinates {(0.6361,0.7282) (1.5220,0.8602) (2.6780,1.7577) (3.5639,0.4538)};
+\addplot[only marks, mark=*, mark size=1.1pt, hl] coordinates {(0.5796,0.7143) (1.0704,0.8133) (1.3398,0.8439) (1.5852,0.8678) (1.7648,0.9119) (2.0102,1.0951) (2.1898,1.3555) (2.4352,1.7315) (2.5699,1.8083) (2.6926,1.7431) (2.7824,1.6184) (2.9051,1.3783) (2.9949,1.1833) (3.1176,0.9339) (3.2074,0.7817) (3.3301,0.6242) (3.4648,0.5099) (3.7102,0.3964)};
 \end{axis}
 \end{tikzpicture}
 
@@ -166,8 +183,8 @@ a parabola on each pair\\[2pt]
 error $\sim h^4$
 \end{column}
 \begin{column}{0.31\textwidth}\centering
-best points, weights: $\sum w_i f(x_i)$\\[2pt]
-\texttt{fixed\_quad}, \ \texttt{quad}\\[2pt]
+$\sum w_i f(x_i)$, split where $f$ bends\\[2pt]
+\texttt{quad} \ (adaptive)\\[2pt]
 exact for degree $\le 2n-1$
 \end{column}
 \end{columns}
